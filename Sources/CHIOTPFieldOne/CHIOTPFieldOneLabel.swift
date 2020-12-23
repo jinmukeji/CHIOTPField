@@ -54,6 +54,14 @@ final public class CHIOTPFieldOneLabel: UIView, POTPLabel {
         didSet { redraw() }
     }
 
+    var activeBoxBackgroundColor: UIColor? {
+        didSet { redraw() }
+    }
+
+    var boxBackgroundColor: UIColor? {
+        didSet { redraw() }
+    }
+
     var placeholder: String? {
         didSet { redraw() }
     }
@@ -124,6 +132,7 @@ final public class CHIOTPFieldOneLabel: UIView, POTPLabel {
             self.layer.shadowOpacity = self.activeShadowOpacity
             self.layer.shadowOffset = CGSize(width: 0, height: self.layer.shadowRadius / 2)
             self.label.textColor = self.textColor
+            self.layer.backgroundColor = self.activeBoxBackgroundColor?.cgColor
             self.text = nil
         })
         animator.startAnimation()
@@ -132,14 +141,22 @@ final public class CHIOTPFieldOneLabel: UIView, POTPLabel {
     private func stopAnimation() {
         animator.addAnimations {
             self.layer.transform = CATransform3DIdentity
-            self.layer.borderColor = self.text?.isEmpty == false ? UIColor.clear.cgColor : self.borderColor?.cgColor
-            self.layer.shadowColor = UIColor.clear.cgColor
-            self.layer.shadowRadius = 0
-            self.layer.shadowOpacity = 0
             if self.placeholder != nil {
                 self.label.textColor = self.text != nil ? self.textColor : self.placeholderColor
             }
             self.text = self.text ?? self.placeholder
+            if self.text?.isEmpty == false {
+                self.layer.shadowColor = self.activeShadowColor?.cgColor
+                self.layer.shadowRadius = ceil(self.frame.height / 8)
+                self.layer.shadowOpacity = self.activeShadowOpacity
+                self.layer.borderColor = UIColor.clear.cgColor
+            } else {
+                self.layer.backgroundColor = self.boxBackgroundColor?.cgColor
+                self.layer.shadowColor = UIColor.clear.cgColor
+                self.layer.shadowRadius = 0
+                self.layer.shadowOpacity = 0
+                self.layer.borderColor = self.borderColor?.cgColor
+            }
         }
         animator.startAnimation()
     }

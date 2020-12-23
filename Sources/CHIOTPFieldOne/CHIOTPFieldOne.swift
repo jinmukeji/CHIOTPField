@@ -58,6 +58,11 @@ open class CHIOTPFieldOne: CHIOTPField<CHIOTPFieldOneLabel> {
         didSet { redraw() }
     }
 
+    @IBInspectable
+    public var activeBoxBackgroundColor: UIColor? = .white  {
+        didSet { redraw() }
+    }
+
     //shadow opacity of the box in active state
     @IBInspectable
     public var activeShadowOpacity: CGFloat = 0.4 {
@@ -86,6 +91,8 @@ open class CHIOTPFieldOne: CHIOTPField<CHIOTPFieldOneLabel> {
             label.activeShadowOpacity = Float(activeShadowOpacity)
             label.placeholder = boxPlaceholder
             label.placeholderColor = boxPlaceholderColor
+            label.activeBoxBackgroundColor = activeBoxBackgroundColor
+            label.boxBackgroundColor = boxBackgroundColor
         }
     }
 }
