@@ -174,6 +174,9 @@ open class CHIOTPField<Label: POTPLabel>: UITextField, UITextFieldDelegate {
                 let char = isSecureTextEntry ? "●" : String(text[index])
                 label.text = char
                 label.updateState()
+            } else {
+                label.text = ""
+                label.updateState()
             }
         })
         if self.isFirstResponder {
